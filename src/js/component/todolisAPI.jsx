@@ -4,11 +4,12 @@ const TodolisAPI = () => {
   const [tasks, setTasks] = useState([]); // Lista de tareas
   const [newTask, setNewTask] = useState(''); // Nueva tarea que se está escribiendo
   const [error, setError] = useState(null); // Estado para manejar errores
-  const API_URL = `https://playground.4geeks.com/todo/users/alex_cordoba`; // URL base de la API
-
+  const apiUrlGet = "https://playground.4geeks.com/todo/users/alex_cordoba"; // URL base de la API
+  const apiUrlPost = "https://playground.4geeks.com/todo/todos/alex_cordoba";
+  const apiUrlDelete = "https://playground.4geeks.com/todo/todos";
   // Función para obtener la lista de tareas (GET request)
   const fetchTasks = () => {
-    fetch(API_URL)
+    fetch(apiUrlGet)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error fetching tasks');
@@ -28,29 +29,7 @@ const TodolisAPI = () => {
         setError('Failed to fetch tasks');
       });
   };
-
-  // Función única para actualizar la lista de tareas (PUT request)
-  const updateTasks = (updatedTasks) => {
-    fetch(API_URL, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedTasks),
-      
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error updating tasks');
-        }
-        setTasks(updatedTasks); // Actualizar el estado con la lista de tareas
-      })
-      .catch((error) => {
-        console.error('Error updating tasks:', error);
-        setError('Failed to update tasks');
-      });
-      console.log(updatedTasks)
-  };
+ 
 
   // Función para agregar una nueva tarea
   const addTask = () => {
@@ -58,7 +37,7 @@ const TodolisAPI = () => {
       const newTaskObject = {  label: newTask, is_done: false }; // Generamos un id usando Date.now()
       const updatedTasks = [...tasks, newTaskObject]; // Crear la nueva lista de tareas con la nueva tarea
      
-      fetch(API_URL, {
+      fetch(apiUrlPost, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +67,7 @@ const TodolisAPI = () => {
 const deleteTask = (id) => {
   // Hacemos la petición DELETE a la API usando el ID de la tarea
   
-  fetch(`${API_URL}/${id}`, {
+  fetch(`${apiUrlDelete}/${id}`, {
     method: 'DELETE',
     headers:{
       'Content-Type':'application/json'
@@ -160,6 +139,5 @@ const deleteTask = (id) => {
 
 export default TodolisAPI;
 
-h
 
 
